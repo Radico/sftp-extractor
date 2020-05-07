@@ -16,16 +16,12 @@ gradle shadowJar
 ### Run
 Required Parameters:
 * `-u` `--user`: The username to connect with (required)
-* `-t` `--type`: The engine type to use (See full list below)
-* `-d` `--database`: The database name
-* `-s` `--sql`: The path to the input SQL
+* `-t` `--type`: The engine type to use
 
 Optional Parameters:
 * `-h` `--host`: The host to connect to (defaults to `localhost`)
-* `-c` `--case`: The case to apply to the keys (defaults to query values, `default`|`snake`|`camel`)
-* `-p` `--port`: The port to connect to (defaults to the standard port for the given engine e.g. `3306` for MySQL)
+* `-p` `--port`: The port to connect to (defaults to the standard port for the given engine e.g. 22 for SFTP)
 * `-f` `--file`: The output file to write to (defaults to a basic filename)
-* `-o` `--print`: Boolean. Write results to `stdout`.
 
 Passwords are passed by TTY input or passed through a `EXTRACT_DB_PASSWORD` environment variable.
 
@@ -35,7 +31,7 @@ java -jar build/libs/sql-extractor/sql-extractor-1.0-SNAPSHOT-all.jar \
     -h <HOST> \
     -p <PORT> \
     -d <DATABASE NAME> \
-    -t <TYPE> (sqlserver, mysql...see full list below) \
+    -t <TYPE> \
     -c <CASE> (default, snake, camel)
     -s /path/to/query.sql \
     -f /path/to/outputfile.jsonl
