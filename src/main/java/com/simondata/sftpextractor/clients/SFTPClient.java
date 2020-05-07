@@ -100,9 +100,9 @@ public class SFTPClient {
             this.sftpChannel = sftpChannel;
             this.sftpChannel.get(inputFile, outputFile, new SFTPLogPercentDone());
             logger.info("Downloaded the file from " + inputFile + " to " + outputFile);
-            this.closeSessionChannelSftp();
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
             this.closeSessionChannelSftp();
         }
     }

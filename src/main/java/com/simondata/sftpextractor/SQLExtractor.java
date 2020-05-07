@@ -53,13 +53,13 @@ public class SQLExtractor extends AbstractExtractor {
      * @param sqlParams the SQLParams to use when building the connection.
      * @param formattingParams the FormattingParams to use for formatting the output.
      */
-    private SQLExtractor(SqlEngine engine, SQLParams sqlParams, FormattingParams formattingParams) {
+    private SQLExtractor(ClientEngine engine, SQLParams sqlParams, FormattingParams formattingParams) {
         this.sqlClient = ClientFactory.makeSQLClient(engine, sqlParams);
         this.formattingParams = formattingParams;
     }
 
     public SQLExtractor(ParamsHolder paramsHolder) {
-        this(paramsHolder.getSqlEngine(), paramsHolder.getSqlParams(), paramsHolder.getFormattingParams());
+        this(paramsHolder.getClientEngine(), paramsHolder.getSqlParams(), paramsHolder.getFormattingParams());
         this.paramsHolder = paramsHolder;
     }
 

@@ -16,7 +16,7 @@ public class ParamsHolder {
 
     private String extractorType;
     private ExtractorEngine extractorEngine;
-    private SqlEngine sqlEngine;
+    private ClientEngine clientEngine;
     private SQLParams sqlParams;
     private SFTPParams sftpParams;
     private FormattingParams formattingParams;
@@ -26,12 +26,12 @@ public class ParamsHolder {
     private FileOutputFormat outputFormat;
     private QueryParams queryParams;
 
-    public ParamsHolder(String extractorType, SqlEngine sqlEngine, SQLParams sqlParams,
+    public ParamsHolder(String extractorType, ClientEngine clientEngine, SQLParams sqlParams,
             SFTPParams sftpParams, FormattingParams formattingParams, String inputSql, String inputSftpFile,
             String outputFile, FileOutputFormat outputFormat, QueryParams queryParams) {
         this.extractorType = extractorType;
         this.extractorEngine = null;
-        this.sqlEngine = sqlEngine;
+        this.clientEngine = clientEngine;
         this.sqlParams = sqlParams;
         this.sftpParams = sftpParams;
         this.formattingParams = formattingParams;
@@ -55,8 +55,8 @@ public class ParamsHolder {
         this.extractorEngine = engine;
     }
 
-    public SqlEngine getSqlEngine() {
-        return this.sqlEngine;
+    public ClientEngine getClientEngine() {
+        return this.clientEngine;
     }
 
     public SQLParams getSqlParams() {

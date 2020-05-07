@@ -67,7 +67,7 @@ public class ExtractorRunner {
         options.addOption("fetchsize", "fetchsize", true, "Fetch size");
         options.addOption("timeout", "timeout", true, "Query Timeout in seconds");
         options.addOption("maxrows", "maxrows", true, "Maximum rows");
-        options.addOption("sftp", "sftp", false, "Connecting to SFTP");
+        options.addOption("is_sftp", "is_sftp", false, "Connecting to SFTP?");
         options.addOption("inputfile", "inputfile", true, "SFTP file to download");
         options.addOption("compress", "compress", false, "Compress files during SFTP transport");
         options.addOption("checkhost", "checkhost", false, "Use strict host key checking for SFTP connection");
@@ -165,10 +165,10 @@ public class ExtractorRunner {
             SFTPParams sftpParams = getSftpParams(line, connectionParams);
             FormattingParams formattingParams = getFormattingParams(line);
             QueryParams queryParams = getQueryParams(line);
-            SqlEngine sqlEngine = SqlEngine.byName(line.getOptionValue("type", "SQLSERVER"));
+            ClientEngine clientEngine = ClientEngine.byName(line.getOptionValue("type", "SQLSERVER"));
             FileOutputFormat outputFormat = FileOutputFormat.valueOf(
                     line.getOptionValue("format", "json").toUpperCase());
-            String extractorEngine = line.hasOption("sftp") ? "sftp" : "sql";
+            String extractorEngine = line.hasOption("is_sftp") ? "sftp" : "sql";
             String inputSftpFile = line.getOptionValue("inputfile");
             String outputFile = line.getOptionValue("file", DEFAULT_OUTPUT_FILENAME);
 
@@ -189,7 +189,7 @@ public class ExtractorRunner {
                     inputSql = readSqlFromStdIn();
                 }
                 ParamsHolder paramsHolder = new ParamsHolder(
-                    extractorEngine, sqlEngine, sqlParams, sftpParams, formattingParams,
+                    extractorEngine, clientEngine, sqlParams, sftpParams, formattingParams,
                     inputSql, inputSftpFile, outputFile, outputFormat, queryParams
                 );
                 AbstractExtractor extractor = ExtractorFactory.create(paramsHolder);

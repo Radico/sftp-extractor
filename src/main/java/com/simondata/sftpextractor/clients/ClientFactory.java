@@ -26,7 +26,7 @@ public class ClientFactory {
     private static final Logger logger = LoggerFactory.getLogger(ClientFactory.class);
 
     public static SQLClient makeSQLClient(String sqlType, SQLParams params) {
-        SqlEngine engine = SqlEngine.byName(sqlType);
+        ClientEngine engine = ClientEngine.byName(sqlType);
         return ClientFactory.makeSQLClient(engine, params);
     }
 
@@ -36,7 +36,7 @@ public class ClientFactory {
      * @param params SQLParams to put in the client
      * @return SQLClient
      */
-    public static SQLClient makeSQLClient(SqlEngine engine, SQLParams params) {
+    public static SQLClient makeSQLClient(ClientEngine engine, SQLParams params) {
         SQLClient client = null;
         switch (engine) {
             case ATHENA:
@@ -80,7 +80,7 @@ public class ClientFactory {
      * @return SFTPClient
      */
     public static SFTPClient makeSFTPClient(String sftpType, SFTPParams params) {
-        SftpEngine engine = SftpEngine.byName(sftpType);
+        ClientEngine engine = ClientEngine.byName(sftpType);
         SFTPClient client = null;
         switch (engine) {
             case SFTP:

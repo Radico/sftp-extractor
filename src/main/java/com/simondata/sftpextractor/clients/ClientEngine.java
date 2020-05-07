@@ -21,7 +21,7 @@ import org.apache.commons.lang3.EnumUtils;
  * <h1>SQLEngine</h1>
  * The type of database to connect to.
  */
-public enum SqlEngine {
+public enum ClientEngine {
     ATHENA,
     SQLSERVER,
     MYSQL,
@@ -30,7 +30,8 @@ public enum SqlEngine {
     INFORMIX,
     REDSHIFT,
     BIGQUERY,
-    SNOWFLAKE;
+    SNOWFLAKE,
+    SFTP;
 
     private static String normalizeName(String name) {
         String result;
@@ -61,6 +62,9 @@ public enum SqlEngine {
             case "IBM_INFORMIX":
                 result = INFORMIX.name();
                 break;
+            case "SFTP":
+                result = SFTP.name();
+                break;
             default:
                 result = name.toUpperCase();
                 break;
@@ -76,8 +80,8 @@ public enum SqlEngine {
      * @param name the String name of the db type to parse.
      * @return The SQLEngine that matches the given name.
      */
-    public static SqlEngine byName(String name) {
-        return EnumUtils.getEnum(SqlEngine.class, normalizeName(name));
+    public static ClientEngine byName(String name) {
+        return EnumUtils.getEnum(ClientEngine.class, normalizeName(name));
     }
 
 }
