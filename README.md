@@ -55,6 +55,13 @@ aws s3 cp build/libs/sftp-extractor-1.0-SNAPSHOT-all.jar s3://prod.radi.co/build
 djprod fab <nameTBD>
 ```
 
+### Publish
+
+Publish a new release to JFrog Artifactory
+```sh
+gradle artifactoryPublish
+```
+
 ## Additional Information
 
 ### Security
