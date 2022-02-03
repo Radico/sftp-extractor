@@ -121,7 +121,6 @@ task sourceJar(type: Jar, dependsOn: classes) {
 
 publishing {
     publications {
-        //mavenJava(MavenPublication) {
         shadow(MavenPublication) { publication ->
             from project.shadow.component(publication)
             artifactId = 'sftp-extractor'
