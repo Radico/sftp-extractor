@@ -13,6 +13,18 @@
 gradle shadowJar
 ```
 
+### Publish
+
+First publish a new release to [JFrog Artifactory](https://simondata.jfrog.io/ui/repos/tree/General/gradle-virtual/gradle-int/sftp-extractor)
+```sh
+gradle clean shadowJar artifactoryPublish
+```
+
+You will see a version pushed like `sftp-extractor-0.0.x-all.jar` in the output of the publish.
+
+Next, update Jenkins build argument for the version to pull into the container.
+[Jenkins Build Base Container](https://misc.automation.simondata.net/job/build-base-web-container/configure)
+
 ### Run
 Required Parameters:
 * `-u` `--user`: The username to connect with (required)
@@ -42,24 +54,6 @@ java -jar build/libs/sql-extractor/sql-extractor-1.0-SNAPSHOT-all.jar \
 ### Tests
 ```$sh
 gradle test
-```
-
-### Deploy
-
-Currently we run this via Python (see `java_sftp.py`) in Jenkins. Deploying has two steps.
-First, we copy the fat jar up to S3, and then we copy that file to each Jenkins box.
-
-```$sh
-aws s3 cp build/libs/sftp-extractor-1.0-SNAPSHOT-all.jar s3://prod.radi.co/build/libs/sftp-extractor-1.0-SNAPSHOT-all.jar
-
-djprod fab <nameTBD>
-```
-
-### Publish
-
-Publish a new release to JFrog Artifactory
-```sh
-gradle artifactoryPublish
 ```
 
 ## Additional Information

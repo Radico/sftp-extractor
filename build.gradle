@@ -13,14 +13,10 @@ See the License for the specific language governing permissions and
 limitations under the License.
  */
 
-group 'simon'
-
 apply plugin: 'java'
 apply plugin: 'signing'
 apply plugin: 'application'
 apply plugin: 'com.github.johnrengelman.shadow'
-apply plugin: 'net.researchgate.release'
-apply plugin: 'org.ajoberstar.git-publish'
 apply plugin: 'java-library'
 apply plugin: 'maven-publish'
 apply plugin: "com.jfrog.artifactory"
@@ -118,42 +114,18 @@ allprojects {
     apply plugin: "com.jfrog.artifactory"
 }
 
-release {
-    preTagCommitMessage = '[Gradle Release Plugin] - pre tag commit: '
-    tagCommitMessage = '[Gradle Release Plugin] - creating tag: '
-    newVersionCommitMessage = '[Gradle Release Plugin] - new version commit: '
-    tagTemplate = '${version}'
-    versionPropertyFile = 'gradle.properties'
-    buildTasks = ['build', 'shadowJar']
-    scmAdapters = [net.researchgate.release.GitAdapter]
-    git {
-        requireBranch = 'master'
-        pushToRemote = 'origin'
-        pushToBranchPrefix = ''
-        commitVersionFileOnly = false
-        signTag = false
-    }
-}
-
-
-task sourcesJar(type: Jar) {
+task sourceJar(type: Jar, dependsOn: classes) {
     from sourceSets.main.allJava
     archiveClassifier = 'sources'
 }
 
-task javadocJar(type: Jar) {
-    from javadoc
-    archiveClassifier = 'javadoc'
-}
-
-
 publishing {
     publications {
-        mavenJava(MavenPublication) {
+        shadow(MavenPublication) { publication ->
+            from project.shadow.component(publication)
             artifactId = 'sftp-extractor'
-            from components.java
-            artifact sourcesJar
-            artifact javadocJar
+            artifact sourceJar
+            artifact shadowJar
             versionMapping {
                 usage('java-api') {
                     fromResolutionOf('runtimeClasspath')
@@ -203,27 +175,9 @@ publishing {
 }
 
 signing {
-    sign publishing.publications.mavenJava
-}
-
-
-javadoc {
-    if(JavaVersion.current().isJava9Compatible()) {
-        options.addBooleanOption('html5', true)
-    }
-}
-
-gitPublish {
-    repoUri = 'git@github.com:Radico/sftp-extractor.git'
-    referenceRepoUri = System.getProperty("user.dir")
-    branch = 'gh-pages'
-    repoDir = file("$buildDir/git-publish") // defaults to $buildDir/gitPublish
-
-    contents {
-        from 'src/pages'
-        from(javadoc) {
-            into 'api'
-        }
+    setRequired {
+        // signing is only required if the artifacts are to be published
+        gradle.taskGraph.allTasks.any { it.equals( PublishToMavenRepository) }
     }
 }
 
@@ -238,9 +192,11 @@ artifactory {
 
         }
         defaults {
-            //publications ('ivyJava','mavenJava')
+            publications ('shadow')
             //List of Gradle Configurations (names or objects) from which to collect the list of artifacts to be deployed to Artifactory.
-            publishConfigs('archives', 'published')
+            publishBuildInfo = false
+            publishPom = false
+            publishIvy = false
         }
     }
     resolve {
