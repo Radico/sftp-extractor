@@ -56,10 +56,10 @@ public class PostgreSQLClient extends AbstractSQLClient {
         PostgreSQLSQLParams postgresParams = PostgreSQLSQLParams.initEngineParams(this.params);
         PGSimpleDataSource ds = new PGSimpleDataSource();
         ds.setUser(postgresParams.getUser());
-        ds.setServerName(postgresParams.getHost(DEFAULT_HOST));
+        ds.setServerNames(new String[]{postgresParams.getHost(DEFAULT_HOST)});
         ds.setPassword(postgresParams.getPassword());
         ds.setDatabaseName(postgresParams.getDatabase());
-        ds.setPortNumber(postgresParams.getPort(DEFAULT_PORT));
+        ds.setPortNumbers(new int[]{postgresParams.getPort(DEFAULT_PORT)});
         ds.setReadOnly(this.queryParams.getReadOnly());
         ds.setDefaultRowFetchSize(this.queryParams.getFetchSize());
 
