@@ -21,6 +21,7 @@ apply plugin: 'java-library'
 apply plugin: 'maven-publish'
 apply plugin: "com.jfrog.artifactory"
 apply plugin: "org.sonarqube"
+apply plugin: "jacoco"
 
 mainClassName = 'com.simondata.sftpextractor.ExtractorRunner'
 sourceCompatibility = 1.8
@@ -32,7 +33,19 @@ sonar {
     property "sonar.host.url", "https://sonar.production.simondata.co"
     property "sonar.token", System.getenv("SONAR_TOKEN")
     property "sonar.java.jdkHome", "/Library/Java/JavaVirtualMachines/zulu-17.jdk/Contents/Home"
+    property "sonar.coverage.jacoco.xmlReportPaths", "reports/jacoco"
   }
+}
+
+jacoco {
+    toolVersion = "0.8.8"
+    reportsDirectory = layout.buildDirectory.dir('reports/jacoco')
+}
+
+jacocoTestReport {
+    reports {
+        xml.required = true
+    }
 }
 
 repositories {
@@ -188,6 +201,13 @@ publishing {
             url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
         }
     }
+}
+
+test {
+    finalizedBy jacocoTestReport // report is always generated after tests run
+}
+jacocoTestReport {
+    dependsOn test // tests are required to run before generating the report
 }
 
 signing {
