@@ -72,17 +72,17 @@ repositories {
 
 dependencies {
 
-    implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.36'
-    implementation group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.36'
+    implementation group: 'org.slf4j', name: 'slf4j-api', version: '2.0.7'
+    implementation group: 'org.slf4j', name: 'slf4j-simple', version: '2.0.7'
     implementation group: 'commons-cli', name: 'commons-cli', version: '1.5.0'
     implementation group: 'commons-dbutils', name: 'commons-dbutils', version: '1.7'
     implementation 'org.apache.commons:commons-text:1.10.0'
     implementation group: 'org.apache.commons', name: 'commons-collections4', version: '4.4'
-    implementation 'com.google.code.gson:gson:2.8.9'
+    implementation 'com.google.code.gson:gson:2.10.1'
     implementation 'com.google.guava:guava:31.1-jre'
-    implementation group: 'com.ibm.informix', name: 'jdbc', version: '4.10.14'
-    implementation group: 'com.microsoft.sqlserver', name: 'mssql-jdbc', version: '10.2.3.jre8'
-    implementation group: 'com.amazon.redshift', name: 'redshift-jdbc42', version: '1.2.43.1067'
+    implementation group: 'com.ibm.informix', name: 'jdbc', version: '4.50.10'
+    implementation group: 'com.microsoft.sqlserver', name: 'mssql-jdbc', version: '12.2.0.jre8'
+    implementation group: 'com.amazon.redshift', name: 'redshift-jdbc42', version: '2.1.0.14'
     implementation group: 'com.mysql', name: 'mysql-connector-j', version: '8.0.33'
     implementation group: 'org.postgresql', name: 'postgresql', version: '42.6.0'
     implementation group: 'net.snowflake', name: 'snowflake-jdbc', version: '3.13.30'
