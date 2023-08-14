@@ -16,6 +16,9 @@ limitations under the License.
 package com.simondata.sftpextractor.clients;
 
 import com.amazon.redshift.jdbc42.DataSource;
+import com.amazon.redshift.util.RedshiftException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * <h1>Redshift Client</h1>
@@ -27,6 +30,7 @@ import com.amazon.redshift.jdbc42.DataSource;
 public class RedshiftClient extends AbstractSQLClient {
 
     private static final int DEFAULT_PORT = 5439;
+    private final Logger logger = LoggerFactory.getLogger(RedshiftClient.class);
 
     /**
      * Constructor
@@ -47,7 +51,12 @@ public class RedshiftClient extends AbstractSQLClient {
         DataSource ds = new DataSource();
         ds.setUserID(params.getUser());
         ds.setPassword(params.getPassword());
-        ds.setURL(this.getRedshiftURL());
+        try {
+            ds.setURL(this.getRedshiftURL());
+        } catch (RedshiftException re) {
+            logger.error(re.getMessage(), re);
+            return null;
+        }
         return ds;
     }
 
